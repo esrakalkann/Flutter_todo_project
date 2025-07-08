@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/to_do_screen/cubit/to_do_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ToDoScreen extends StatefulWidget {
+class ToDoScreen extends StatelessWidget {
   const ToDoScreen({super.key});
 
-  @override
-  State<ToDoScreen> createState() => _ToDoScreenState();
-}
-
-class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
