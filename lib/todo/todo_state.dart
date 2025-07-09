@@ -1,18 +1,19 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_application_1/todo/todo_cubit.dart';
-
+part of 'todo_cubit.dart';
 
 @immutable
-abstract class TodoState {}
+//kendisinden başka sınıf üretilemez
+sealed class ToDoState {}
 
-class TodoInitial extends TodoState {}
+final class ToDoInitial extends ToDoState {}
 
-class TodoLoaded extends TodoState {
-  final List<ToDo> todos;
-  TodoLoaded(this.todos);
+class ToDoLoading extends ToDoState {}
+
+class ToDoLoaded extends ToDoState {
+  final List<ToDoModel> toDoList;
+  ToDoLoaded(this.toDoList);
 }
 
-class TodoError extends TodoState {
+class ToDoError extends ToDoState {
   final String message;
-  TodoError(this.message);
+  ToDoError(this.message);
 }
