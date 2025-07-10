@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/todo/todo_cubit.dart';
+import 'package:flutter_application_1/pages/todo/cubit/todo_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_application_1/pages/add_todo.dart';
-import 'package:flutter_application_1/models/todo.dart';  // Bu lazım olacak!
+import 'package:flutter_application_1/pages/todo/subpages/add_todo.dart';
+import 'package:flutter_application_1/models/local/todo_model.dart';  // Bu lazım olacak!
 
 class ToDoScreen extends StatelessWidget {
   const ToDoScreen({super.key});
