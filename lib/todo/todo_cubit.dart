@@ -76,5 +76,23 @@ class ToDoCubit extends Cubit<ToDoState> {
 
     }
 
+    void editTodo(int id, String newText){
+
+      if (state is ToDoLoaded){
+        _allTodos = _allTodos.map((todo){
+          if(todo.id==id){
+            return todo.copyWith(text:newText);
+
+          }
+
+          return todo;
+
+        }).toList();
+        emit(ToDoLoaded([..._allTodos]));
+
+      }
+
+    }
+
 
   }

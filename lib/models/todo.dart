@@ -19,4 +19,13 @@ class ToDoModel {
       isCompleted: !isCompleted,
     );
   }
+
+  ToDoModel copyWith({String? text, bool? isCompleted}) {
+  return ToDoModel(
+    id: id,
+    text: text ?? this.text,
+    isCompleted: isCompleted ?? this.isCompleted,
+  );
+}
+
 }
