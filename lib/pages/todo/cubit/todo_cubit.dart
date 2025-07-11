@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/local/todo_model.dart';
+import 'package:flutter_application_1/widgets/task_details.dart';
 
 part 'todo_state.dart';
 
@@ -34,11 +35,13 @@ class ToDoCubit extends Cubit<ToDoState> {
     }
   }
 
-  void addTodo(String text) {
+  void addTodo(String text,{String? description, DateTime? dateTime}) {
     if (state is ToDoLoaded) {
       final newTodo = ToDoModel(
         id: DateTime.now().millisecondsSinceEpoch,
         text: text,
+        description: description,
+        dateTime: dateTime,
       );
       _allTodos = [..._allTodos, newTodo];
       emit(ToDoLoaded([..._allTodos]));

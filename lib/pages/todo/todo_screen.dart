@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/todo/cubit/todo_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/pages/todo/subpages/add_todo.dart';
-import 'package:flutter_application_1/models/local/todo_model.dart';  // Bu lazım olacak!
+import 'package:flutter_application_1/models/local/todo_model.dart'; 
+import 'package:flutter_application_1/widgets/task_details.dart';
+
 
 class ToDoScreen extends StatelessWidget {
   const ToDoScreen({super.key});
@@ -47,8 +49,16 @@ class ToDoScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final todo = todos[index];
                       return ListTile(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => TaskDetail(todo: todo),
+                          );
+                        },
+
                         title: Text(
                           todo.text,
+                          
                           style: TextStyle(
                             decoration: todo.isCompleted
                                 ? TextDecoration.lineThrough
@@ -61,6 +71,7 @@ class ToDoScreen extends StatelessWidget {
                             context.read<ToDoCubit>().toggleTask(todo.id);
                           },
                         ),
+                        
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -100,9 +111,10 @@ class ToDoScreen extends StatelessWidget {
     );
   }
 
-
   void _showEditDialog(BuildContext context, ToDoModel todo) {
-    final TextEditingController controller = TextEditingController(text: todo.text);
+    final TextEditingController controller = TextEditingController(
+      text: todo.text,
+    );
 
     showDialog(
       context: context,
@@ -111,7 +123,6 @@ class ToDoScreen extends StatelessWidget {
         content: TextField(
           controller: controller,
           decoration: const InputDecoration(hintText: 'Task Title'),
-          
         ),
         actions: [
           TextButton(
@@ -125,17 +136,14 @@ class ToDoScreen extends StatelessWidget {
                 context.read<ToDoCubit>().editTodo(todo.id, newText);
               }
               Navigator.of(context).pop();
-                 ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(content: Text('Task edited!')),
-);
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Task edited!')));
             },
             child: const Text('Save'),
           ),
         ],
       ),
     );
- 
-
   }
 }
-

@@ -7,27 +7,71 @@ class AddTaskDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController _titleController = TextEditingController();
+    final TextEditingController _descController = TextEditingController();
+    DateTime? _selectedDateTime;
 
     return AlertDialog(
       title: const Text('Add Task'),
-      content: TextField(
-        controller: _controller,
-        decoration: const InputDecoration(hintText: 'Task Title'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(hintText: 'Task Title'),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _descController,
+              decoration: const InputDecoration(hintText: 'Description'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () async {
+                final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime(2100),
+                );
+                if (pickedDate != null) {
+                  final pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (pickedTime != null) {
+                    _selectedDateTime = DateTime(
+                      pickedDate.year,
+                      pickedDate.month,
+                      pickedDate.day,
+                      pickedTime.hour,
+                      pickedTime.minute,
+                    );
+                  }
+                }
+              },
+              child: const Text('Date and Time'),
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
-            final taskTitle = _controller.text.trim();
-            if (taskTitle.isNotEmpty) {
-              context.read<ToDoCubit>().addTodo(taskTitle);
-              Navigator.of(context).pop();  
+            final title = _titleController.text.trim();
+            final desc = _descController.text.trim();
+            if (title.isNotEmpty) {
+              context.read<ToDoCubit>().addTodo(
+                title,
+                description: desc,
+                dateTime: _selectedDateTime,
+              );
+              Navigator.of(context).pop();
             }
           },
           child: const Text('Add'),

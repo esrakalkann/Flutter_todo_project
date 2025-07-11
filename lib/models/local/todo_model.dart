@@ -4,10 +4,15 @@ class ToDoModel {
   final int id;
   final String text;
   final bool isCompleted;
+  final String? description;   
+  final DateTime? dateTime;
 
   ToDoModel({
     required this.id,
     required this.text,
+    this.description,
+    this.dateTime,
+
     this.isCompleted = false,
   });
 
@@ -25,6 +30,8 @@ class ToDoModel {
     id: id,
     text: text ?? this.text,
     isCompleted: isCompleted ?? this.isCompleted,
+    description: description,
+    dateTime: dateTime,
   );
 }
 
