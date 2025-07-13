@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/todo/cubit/todo_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/pages/todo/subpages/add_todo.dart';
-import 'package:flutter_application_1/models/local/todo_model.dart'; 
+import 'package:flutter_application_1/models/local/todo_model.dart';
 import 'package:flutter_application_1/widgets/task_details.dart';
-
 
 class ToDoScreen extends StatelessWidget {
   const ToDoScreen({super.key});
@@ -50,15 +49,17 @@ class ToDoScreen extends StatelessWidget {
                       final todo = todos[index];
                       return ListTile(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => TaskDetail(todo: todo),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => TaskDetail(todo: todo),
+                            ),
                           );
                         },
 
                         title: Text(
                           todo.text,
-                          
+
                           style: TextStyle(
                             decoration: todo.isCompleted
                                 ? TextDecoration.lineThrough
@@ -71,7 +72,7 @@ class ToDoScreen extends StatelessWidget {
                             context.read<ToDoCubit>().toggleTask(todo.id);
                           },
                         ),
-                        
+
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

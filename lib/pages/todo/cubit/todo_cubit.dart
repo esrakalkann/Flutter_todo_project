@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/local/todo_model.dart';
-import 'package:flutter_application_1/widgets/task_details.dart';
+
 
 part 'todo_state.dart';
 

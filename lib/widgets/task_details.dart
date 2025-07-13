@@ -8,26 +8,25 @@ class TaskDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Task Details'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Title: ${todo.text}'),
-          const SizedBox(height: 8),
-          Text('Completed: ${todo.isCompleted ? "Yes" : "No"}'),
-          if (todo.description != null) Text('Description: ${todo.description}'),
-          if (todo.dateTime != null) Text('Date: ${todo.dateTime}'),
-        ],
-      ),
-
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Close'),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Task Details')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(todo.text, style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 16),
+            Text('Completed: ${todo.isCompleted ? "Yes" : "No"}'),
+            const SizedBox(height: 8),
+            if (todo.description != null)
+              Text('Description: ${todo.description}'),
+               const SizedBox(height: 8),
+            if (todo.dateTime != null) Text('Date: ${todo.dateTime}'),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
