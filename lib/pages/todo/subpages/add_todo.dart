@@ -24,7 +24,7 @@ class AddTaskDialog extends StatelessWidget {
             const SizedBox(height: 10),
             TextField(
               controller: _descController,
-              decoration: const InputDecoration(hintText: 'Description'),
+              decoration: const InputDecoration(hintText: 'details'),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
