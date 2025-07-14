@@ -94,21 +94,46 @@ class ToDoCubit extends Cubit<ToDoState> {
     }
   }
 
-  void searchTodos(String query) {
-    if (query.isEmpty) {
-      emit(ToDoLoaded([..._allTodos])); // Tüm todoları göster
-    } else {
-      // Arama sorgusuna göre todoları filtrele
-      final filtered = _allTodos
-          .where(
-            (todo) => todo.text.toLowerCase().contains(query.toLowerCase()),
-          )
-          .toList();
-      emit(ToDoLoaded(filtered)); // Filtrelenmiş todoları göster
+  void searchTodos(String query) async{
+    emit(ToDoLoading());
+    try {
+      final snapshot = await _firestore
+          .collection('todos')
+          .where('text', isGreaterThanOrEqualTo: query)
+          .get();
+
+      final results = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return ToDoModel(
+          id: doc.id,
+          text: data['text'],
+          isCompleted: data['isCompleted'] ?? false,
+          description: data['description'],
+          dateTime: data['dateTime'] != null
+              ? (data['dateTime'] as Timestamp).toDate()
+              : null,
+        );
+      }).toList();
+            emit(ToDoLoaded(results));
+    } catch (e) {
+      emit(ToDoError('Search error: $e'));
     }
   }
 
-  void toggleTask(int id) {
+
+  Future <void> toggleTask(String id, bool currentState) async{
+    try{
+      await _firestore.collection('todos').doc(id).update({
+        'isCompleted': !currentState,
+      });
+      loadTodos();
+    }catch(e){
+      emit(ToDoError('Unable to update: $e'));
+
+    }
+
+
+    /*
     if (state is ToDoLoaded) {
       _allTodos = _allTodos.map((todo) {
         if (todo.id == id) {
@@ -119,11 +144,26 @@ class ToDoCubit extends Cubit<ToDoState> {
       }).toList();
       emit(ToDoLoaded(_allTodos));
     }
+    */
   }
 
-  void editTodo(int id, String newText) {
-    if (state is ToDoLoaded) {
-      _allTodos = _allTodos.map((todo) {
+  Future <void> editTodo(String id, String newText) async
+  {
+    try{
+
+      await _firestore.collection('todos').doc(id).update({
+        'text': newText,
+      });
+      loadTodos();
+    } catch(e){
+      emit(ToDoError('Unable to update: $e '));
+    }
+
+    //}
+
+    /*if (state is ToDoLoaded) {
+      _allTodos = _allTodos.map((todo)
+      {
         if (todo.id == id) {
           return todo.copyWith(text: newText);
         }
@@ -131,6 +171,7 @@ class ToDoCubit extends Cubit<ToDoState> {
         return todo;
       }).toList();
       emit(ToDoLoaded([..._allTodos]));
-    }
+    }*/
+    
   }
 }

@@ -1,11 +1,13 @@
 class ToDoModel {
 
   
-  final int id;
+  final String id;
   final String text;
   final bool isCompleted;
   final String? description;   
   final DateTime? dateTime;
+
+  
 
   ToDoModel({
     required this.id,

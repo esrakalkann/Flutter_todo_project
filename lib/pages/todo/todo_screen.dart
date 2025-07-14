@@ -69,7 +69,7 @@ class ToDoScreen extends StatelessWidget {
                         leading: Checkbox(
                           value: todo.isCompleted,
                           onChanged: (_) {
-                            context.read<ToDoCubit>().toggleTask(todo.id);
+                            context.read<ToDoCubit>().toggleTask(todo.id,todo.isCompleted);
                           },
                         ),
 
