@@ -102,11 +102,11 @@ class ToDoScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => const AddTaskDialog(),
-          );
-        },
+          
+          Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const AddTaskDialog()),
+    );
+  },
         child: const Icon(Icons.add),
       ),
     );

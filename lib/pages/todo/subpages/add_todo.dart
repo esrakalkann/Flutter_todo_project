@@ -11,9 +11,10 @@ class AddTaskDialog extends StatelessWidget {
     final TextEditingController _descController = TextEditingController();
     DateTime? _selectedDateTime;
 
-    return AlertDialog(
-      title: const Text('Add Task'),
-      content: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Task')),
+      body: Padding(padding: const EdgeInsets.all(16),
+      
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -48,20 +49,21 @@ class AddTaskDialog extends StatelessWidget {
                       pickedTime.hour,
                       pickedTime.minute,
                     );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Date picked: $_selectedDateTime")),
+                    );
                   }
                 }
               },
               child: const Text('Date and Time'),
             ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
+          
+          const Spacer(),
+     
+      
+     
+        ElevatedButton(
           onPressed: () {
             final title = _titleController.text.trim();
             final desc = _descController.text.trim();
@@ -75,8 +77,12 @@ class AddTaskDialog extends StatelessWidget {
             }
           },
           child: const Text('Add'),
-        ),
+        )
+        
       ],
+    ),
+    ),
+
     );
   }
 }
