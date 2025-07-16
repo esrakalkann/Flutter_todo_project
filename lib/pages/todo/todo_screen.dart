@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/todo/cubit/todo_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_application_1/pages/todo/subpages/add_todo.dart';
 import 'package:flutter_application_1/models/local/todo_model.dart';
+import 'package:flutter_application_1/pages/todo/cubit/todo_cubit.dart';
+import 'package:flutter_application_1/pages/todo/subpages/add_todo.dart';
 import 'package:flutter_application_1/widgets/task_details.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ToDoScreen extends StatelessWidget {
   const ToDoScreen({super.key});
@@ -14,16 +14,18 @@ class ToDoScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Todo List')),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Row(children: [Text("Merhaba, enesbsky@gmail.com")]),
+          ),
+
           // Search bar
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<ToDoCubit, ToDoState>(
               builder: (context, state) {
                 return TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Search',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Search', border: OutlineInputBorder()),
                   onChanged: (value) {
                     context.read<ToDoCubit>().searchTodos(value);
                   },
@@ -49,27 +51,14 @@ class ToDoScreen extends StatelessWidget {
                       final todo = todos[index];
                       return ListTile(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => TaskDetail(todo: todo),
-                            ),
-                          );
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => TaskDetail(todo: todo)));
                         },
 
-                        title: Text(
-                          todo.text,
-
-                          style: TextStyle(
-                            decoration: todo.isCompleted
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none,
-                          ),
-                        ),
+                        title: Text(todo.text, style: TextStyle(decoration: todo.isCompleted ? TextDecoration.lineThrough : TextDecoration.none)),
                         leading: Checkbox(
                           value: todo.isCompleted,
                           onChanged: (_) {
-                            context.read<ToDoCubit>().toggleTask(todo.id,todo.isCompleted);
+                            context.read<ToDoCubit>().toggleTask(todo.id, todo.isCompleted);
                           },
                         ),
 
@@ -102,20 +91,15 @@ class ToDoScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          
-          Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const AddTaskDialog()),
-    );
-  },
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AddTaskDialog()));
+        },
         child: const Icon(Icons.add),
       ),
     );
   }
 
   void _showEditDialog(BuildContext context, ToDoModel todo) {
-    final TextEditingController controller = TextEditingController(
-      text: todo.text,
-    );
+    final TextEditingController controller = TextEditingController(text: todo.text);
 
     showDialog(
       context: context,
@@ -126,10 +110,7 @@ class ToDoScreen extends StatelessWidget {
           decoration: const InputDecoration(hintText: 'Task Title'),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               final newText = controller.text.trim();
@@ -137,9 +118,7 @@ class ToDoScreen extends StatelessWidget {
                 context.read<ToDoCubit>().editTodo(todo.id, newText);
               }
               Navigator.of(context).pop();
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('Task edited!')));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Task edited!')));
             },
             child: const Text('Save'),
           ),
