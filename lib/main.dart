@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/login/login_screen.dart';
 import 'package:flutter_application_1/pages/register/register_screen.dart';
 import 'package:flutter_application_1/pages/todo/todo_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }
